@@ -1,0 +1,7 @@
+gym[atari]
+tensorflow
+wandb
+opencv-python
+scikit-learn
+torchvision
+torch
