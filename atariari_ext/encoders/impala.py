@@ -4,6 +4,10 @@ import torch.nn.functional as F
 
 class ImpalaCNN(encoders.ImpalaCNN):
 
+    @property
+    def convolution_depth(self):
+        return self.depths[-1]
+
     def forward(self, inputs, fmaps=False):
         f5 = self.layer3(self.layer2(self.layer1(inputs)))
 
