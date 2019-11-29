@@ -1,5 +1,6 @@
 import atariari.methods.stdim as stdim
 import torch
+import torch.nn as nn
 
 
 class InfoNCESpatioTemporalTrainer(stdim.InfoNCESpatioTemporalTrainer):
