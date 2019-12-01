@@ -36,6 +36,8 @@ test_episodes, test_labels = get_episodes(
 
 wandb.init(name=f'probe-{args.encoder_type}-{args.env_name}', entity=args.entity, project=args.project)
 
+observation_shape = tr_episodes[0][0].shape
+
 config = {}
 config.update(vars(args))
 config['obs_space'] = observation_shape  # weird hack
