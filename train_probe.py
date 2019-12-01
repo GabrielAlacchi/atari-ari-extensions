@@ -5,6 +5,8 @@ import torch
 from atariari.methods.utils import get_argparser
 from atariari.benchmark.episodes import get_episodes
 from atariari_ext.benchmark.probe import WandbLoggingProbeTrainer
+from atariari_ext.encoders.impala import ImpalaCNN
+from atariari_ext.encoders.nature import NatureCNN
 
 
 parser = get_argparser()
@@ -17,7 +19,7 @@ encoder_model_file = wandb.restore('encoder.pt', run_path=f'{args.entity}/{args.
 
 device = torch.device("cuda:" + str(args.cuda_id) if torch.cuda.is_available() else "cpu")
 
-encoder = torch.load(encoder_model_file.name, map_location=device)
+state_dict = torch.load(encoder_model_file.name, map_location=device)
 
 tr_episodes, val_episodes,\
 tr_labels, val_labels,\
@@ -34,9 +36,19 @@ test_episodes, test_labels = get_episodes(
     checkpoint_index=args.checkpoint_index,
     min_episode_length=args.batch_size)
 
-wandb.init(name=f'probe-{args.encoder_type}-{args.env_name}', entity=args.entity, project=args.project)
-
 observation_shape = tr_episodes[0][0].shape
+
+if args.encoder_type == 'Impala':
+    encoder = ImpalaCNN(observation_shape[0], args)
+else:
+    encoder = NatureCNN(observation_shape[0], args)
+
+encoder.to(device)
+encoder.load_state_dict(state_dict)
+
+wandb.init(name=f'probe-{args.encoder_type}-{args.env_name}'.lower(),
+           entity=args.entity,
+           project=args.project)
 
 config = {}
 config.update(vars(args))
