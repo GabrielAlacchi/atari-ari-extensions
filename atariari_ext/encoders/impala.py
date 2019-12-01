@@ -3,7 +3,7 @@ import torch.nn.functional as F
 
 
 class ImpalaCNN(encoders.ImpalaCNN):
-
+ 
     @property
     def convolution_depth(self):
         return self.depths[-1]
