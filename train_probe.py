@@ -56,7 +56,7 @@ config['obs_space'] = observation_shape  # weird hack
 
 wandb.config.update(config)
 
-trainer = WandbLoggingProbeTrainer(encoder, representation_len=encoder.feature_size, wandb=wandb)
+trainer = WandbLoggingProbeTrainer(encoder, representation_len=args.feature_size, wandb=wandb)
 probe_trainer.train(tr_episodes, val_episodes,
                      tr_labels, val_labels,)
 probe_trainer.test(test_episodes, test_labels)
