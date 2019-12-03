@@ -6,13 +6,15 @@ class ImpalaCNN(encoders.ImpalaCNN):
  
     @property
     def convolution_depth(self):
-        return self.depths[-1]
+        return self.depths[-2]
 
     def forward(self, inputs, fmaps=False):
         f5 = self.layer3(self.layer2(self.layer1(inputs)))
 
         if not self.downsample:
-            f5 = self.layer4(f5)
+            out = self.layer4(f5)
+        else:
+            out = f5
 
         out = F.relu(self.final_linear(self.flatten(f5)))
 
