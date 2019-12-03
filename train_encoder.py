@@ -1,5 +1,7 @@
 import time
 import atariari_ext
+import wandb
+
 from collections import deque
 from itertools import chain
 
