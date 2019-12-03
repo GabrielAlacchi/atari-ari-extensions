@@ -16,7 +16,7 @@ class ImpalaCNN(encoders.ImpalaCNN):
         else:
             out = f5
 
-        out = F.relu(self.final_linear(self.flatten(f5)))
+        out = F.relu(self.final_linear(self.flatten(out)))
 
         if fmaps:
             return {
