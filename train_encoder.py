@@ -11,10 +11,10 @@ import torch
 
 from atariari.methods.dim_baseline import DIMTrainer
 from atariari.methods.utils import get_argparser
-from atariari.methods.encoders.nature import NatureCNN, ImpalaCNN
+from atariari.methods.encoders.nature import ImpalaCNN
 from atariari.methods.stdim import InfoNCESpatioTemporalTrainer
 from atariari.benchmark.episodes import get_episodes
-from atariari_ext.encoders.nature import SelectiveReceptiveFieldNatureCNN
+from atariari_ext.encoders.nature import AdjustableNatureCNN
 
 
 parser = get_argparser()
@@ -39,9 +39,7 @@ tr_eps, val_eps = get_episodes(steps=args.pretraining_steps,
 
 observation_shape = tr_eps[0][0].shape
 if args.encoder_type == "Nature":
-    encoder = NatureCNN(observation_shape[0], args)
-elif args.encoder_type == "ReceptiveNature":
-    encoder = SelectiveReceptiveFieldNatureCNN(observation_shape[0], args, receptive_field=args.receptive_field)
+    encoder = AdjustableNatureCNN(observation_shape[0], args)
 elif args.encoder_type == "Impala":
     encoder = ImpalaCNN(observation_shape[0], args)
 

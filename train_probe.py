@@ -13,6 +13,7 @@ parser = get_argparser()
 parser.add_argument('--entity', default='neurips-challenge', dest='entity')
 parser.add_argument('--project', default='atari-ari', dest='project')
 parser.add_argument('--run-id', type=str, required=True, dest='run_id')
+parser.add_argument('--receptive-field', default=16, type=int, dest='receptive_field')
 args = parser.parse_args(sys.argv[1:])
 
 encoder_model_file = wandb.restore('encoder.pt', run_path=f'{args.entity}/{args.project}/{args.run_id}')
