@@ -11,7 +11,7 @@ import torch
 
 from atariari.methods.dim_baseline import DIMTrainer
 from atariari.methods.utils import get_argparser
-from atariari.methods.encoders.nature import ImpalaCNN
+from atariari.methods.encoders import ImpalaCNN
 from atariari.methods.stdim import InfoNCESpatioTemporalTrainer
 from atariari.benchmark.episodes import get_episodes
 from atariari_ext.encoders.nature import AdjustableNatureCNN
