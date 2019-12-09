@@ -5,8 +5,8 @@ import torch
 from atariari.methods.utils import get_argparser
 from atariari.benchmark.episodes import get_episodes
 from atariari_ext.benchmark.probe import WandbLoggingProbeTrainer
-from atariari_ext.encoders.impala import ImpalaCNN
-from atariari_ext.encoders.nature import NatureCNN
+from atariari.methods.encoders import ImpalaCNN
+from atariari_ext.encoders.nature import AdjustableNatureCNN
 
 
 parser = get_argparser()
@@ -42,7 +42,7 @@ observation_shape = tr_episodes[0][0].shape
 if args.encoder_type == 'Impala':
     encoder = ImpalaCNN(observation_shape[0], args)
 else:
-    encoder = NatureCNN(observation_shape[0], args)
+    encoder = AdjustableNatureCNN(observation_shape[0], args)
 
 encoder.to(device)
 encoder.load_state_dict(state_dict)
