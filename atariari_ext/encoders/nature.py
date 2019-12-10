@@ -68,3 +68,51 @@ class AdjustableNatureCNN(nn.Module):
                 'out': out
             }
         return out
+
+
+class LargeReceptiveNatureCNN(nn.Module):
+    def __init__(self, input_channels, args):
+        super().__init__()
+
+        self.feature_size = args.feature_size
+        self.hidden_size = self.feature_size
+        self.input_channels = input_channels
+        self.end_with_relu = args.end_with_relu
+        self.args = args
+
+        init_ = lambda m: init(m,
+                               nn.init.orthogonal_,
+                               lambda x: nn.init.constant_(x, 0),
+                               nn.init.calculate_gain('relu'))
+
+        self.final_conv_size = 1 * 3 * 128
+        self.main = nn.Sequential(
+            init_(nn.Conv2d(input_channels, 32, 8, stride=4)),
+            nn.ReLU(),
+            init_(nn.Conv2d(32, 64, 4, stride=4)),
+            nn.ReLU(),
+            init_(nn.Conv2d(64, 128, 4, stride=2)),
+            nn.ReLU(),
+            init_(nn.Conv2d(128, 128, 3, stride=1)),
+            nn.ReLU(),
+            encoders.Flatten(),
+            init_(nn.Linear(self.final_conv_size, self.feature_size)))
+
+    @property
+    def local_layer_depth(self):
+        return self.main[4].out_channels
+
+    def forward(self, inputs, fmaps=False):
+        f5 = self.main[:6](inputs)
+        out = self.main[6:](f5)
+
+        if self.end_with_relu:
+            assert self.args.method != "vae", "can't end with relu and use vae!"
+            out = F.relu(out)
+
+        if fmaps:
+            return {
+                'f5': f5.permute(0, 2, 3, 1),
+                'out': out
+            }
+        return out
