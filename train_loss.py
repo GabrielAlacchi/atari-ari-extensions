@@ -56,8 +56,8 @@ def train_encoder(args, p=None):
     return encoder
 
 
-ps = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
-envs = ['HeroNoFrameskip-v4', 'SpaceInvadersNoFrameskip-v4']
+ps = [0.1, 0.3, 0.5, 0.7, 0.9]
+envs = ['SpaceInvadersNoFrameskip-v4']
 
 for env in envs:
     parser = get_argparser()
@@ -67,7 +67,7 @@ for env in envs:
       )
 
     for p in ps:
-        wandb.init(name='neg-sample-p-%.2f-%s' % (p, args.env_name.lower()),
+        wandb.init(name='weighted-loss-p-%.2f-%s' % (p, args.env_name.lower()),
                project='atari-ari')
 
         encoder = train_encoder(args, p)
