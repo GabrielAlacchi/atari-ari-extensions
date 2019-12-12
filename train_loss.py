@@ -20,13 +20,6 @@ from atariari.benchmark.episodes import get_episodes
 
 from atariari_ext.trainer.stt import InfoNCESpatioTemporalTrainerExt
 
-parser = get_argparser()
-args = parser.parse_args([
-  '--env-name',
-  'BoxingNoFrameskip-v4','--entropy-threshold','0.6']#,'--lr','3e-4','--color']
-  )
-
-
 def train_encoder(args, p=None):
     device = torch.device("cuda:" + str(args.cuda_id) if torch.cuda.is_available() else "cpu")
     tr_eps, val_eps = get_episodes(steps=args.pretraining_steps,
@@ -63,11 +56,18 @@ def train_encoder(args, p=None):
     return encoder
 
 
-ps = [0.1, 0.2, 0.3]
+ps = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
+envs = ['HeroNoFrameskip-v4', 'SpaceInvadersNoFrameskip-v4']
 
-p = 0.49
+for env in envs:
+    parser = get_argparser()
+    args = parser.parse_args([
+      '--env-name',
+      env,'--entropy-threshold','0.6']
+      )
 
-wandb.init(name='neg-sample-p-%.2f-%s' % (p, args.env_name.lower()),
-           project='atari-ari')
+    for p in ps:
+        wandb.init(name='neg-sample-p-%.2f-%s' % (p, args.env_name.lower()),
+               project='atari-ari')
 
-encoder = train_encoder(args, p)
+        encoder = train_encoder(args, p)
