@@ -56,10 +56,7 @@ else:
 encoder.to(device)
 encoder.load_state_dict(state_dict)
 
-run_name = arg
-if args.frame_file:
-    tr_
-s.run_name if args.run_name else f'probe-{args.encoder_type}-{args.env_name}'.lower()
+run_name = args.run_name if args.run_name else f'probe-{args.encoder_type}-{args.env_name}'.lower()
 
 wandb.init(name=run_name,
            entity=args.entity,
