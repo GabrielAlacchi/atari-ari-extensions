@@ -17,7 +17,7 @@ parser.add_argument('--run-name', type=str, default='', dest='run_name')
 parser.add_argument('--receptive-field', default=16, type=int, dest='receptive_field')
 args = parser.parse_args(sys.argv[1:])
 
-encoder_model_file = wandb.restore('encoder.pt', run_path=f'{args.entity}/{args.project}/{args.run_id}')
+encoder_model_file = wandb.restore('encoder.pt', run_path=f'{args.entity}/{args.project}/{args.run_id}', replace=True)
 
 device = torch.device("cuda:" + str(args.cuda_id) if torch.cuda.is_available() else "cpu")
 
