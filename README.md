@@ -11,6 +11,8 @@ see https://github.com/mila-iqia/atari-representation-learning.git
 To explore all of our training runs and results go to https://app.wandb.ai/neurips-challenge/atari-ari/
 in total we used 17 days of GPU time spread across K80 GPUs and occasionally P100 GPUs provided by Google Colab.
 
+We also contributed to the main MILA codebase with some changes we needed for our work, see this pull request for details: https://github.com/mila-iqia/atari-representation-learning/pull/48 
+
 # Setup
 
 ```
